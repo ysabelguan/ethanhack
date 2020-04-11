@@ -1,0 +1,15 @@
+//Ysabel Guan
+//INHERITANCE ASSIGNMENT FOR 0212
+//VERSION 1 
+
+#ifndef GAMEHERO_HH
+#define GAMEHERO_HH
+class Hero:public Warrior 
+{
+public:
+  Hero();
+  void fight() override; 
+  void punch(); //villain has sword while hero has brass knuckles 
+  void kick(); 
+}; 
+#endif

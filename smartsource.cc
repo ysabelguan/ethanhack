@@ -1,0 +1,66 @@
+// // Ysabel Guan
+// // 10/23/2019
+// // SmartArray Assignment SOURCE FILE
+
+// #include "smartarray.h"
+
+// // DEFINE METHODS
+// SmartArray::SmartArray(int size) //constructor
+// {
+//   array = new double[size];
+//   if (size<1)
+//     {
+//       throw std::domain_error("Negative number passed"); 
+//     }
+// }
+
+// SmartArray::SmartArray(const SmartArray& original) //copy constructor
+// {
+//   size = original.size; //the new object copies the old object's data.
+// }
+
+// void SmartArray::append(double valuetoappend)
+// { 
+//   double* newArray = new double[size +1];
+  
+//   for (int i=0; i<size; i++)
+//     {
+//       newArray[i]=array[i];
+//     }
+  
+//   delete[] array;
+//   array = newArray;
+//   ++size;
+
+// }
+
+// void SmartArray::remove(int index) 
+// {
+//   for (int i=index+1; i<size; i++)
+//     {
+//       array[i-1] = array[i]; 
+//     }
+//   --size; 
+// }
+
+// void SmartArray::setValue(int index, double value)
+// {
+//   array[index] = value; 
+// }
+
+// double SmartArray::getValue(int index)
+// {
+//   for (int i=0; i<size; i++)
+//     {
+//       double element = array[i];
+//       if (i == index)
+// 	{
+// 	  return element; 
+// 	}
+//     }
+// }
+
+// SmartArray::~SmartArray()
+// {
+//   delete []array;
+// }

@@ -1,0 +1,22 @@
+// Ysabel Guan
+// 10/23/2019
+// SmartArray Assignment
+
+
+#include "smartarray.h" //never include source file
+
+// MAIN FUNCTION
+
+int main()
+{
+  SmartArray defenestration[3];
+  double appendage = 34;
+  int indexvalue = 3;
+  double newvalue = 69; 
+  copyArray(3);
+  append(array1, appendage);
+  remove(array1, indexvalue);
+  setValue(array1, indexvalue, newvalue);
+  getValue(array1, indexvalue); 
+  return 0; 
+}

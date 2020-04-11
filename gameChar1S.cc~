@@ -1,0 +1,14 @@
+//Ysabel Guan
+//INHERITANCE ASSIGNMENT FOR 0212
+//VERSION 1 
+#include "gameHero.h"
+Hero::Hero()
+{
+  Warrior(150, 170)
+}
+
+void Hero::fight()
+{
+  punch();
+  kick(); 
+}

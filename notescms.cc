@@ -1,0 +1,363 @@
+//CMS NOTES
+// User-defined type: where you can make your own type and it can be just as powerful as a normal built-in type.
+// Variable types: int, char, float, double. They are built in types.
+// User-defined types are always capitalized. Use struct to declare the type.
+// Example declaration:
+struct Coordinate // all struct does is grouping data that corresponds with each other. When you are writing members, you should be able to determine the name for your new type just by what is inside the struct. Declare the new type outside of functions. 
+{
+double x; // Tells the compiler that it needs to make room for two doubles for this type. 
+double y; 
+};
+
+Coordinate position; //This initializes a variable named position that is of type Coordinate.
+Coordinate velocity; 
+position.x = 5; // The dot allows you to access the members of the type.
+position.y = 7; // You must initialize the variable before you access the members.
+position.x += 5; //you can treat position.x like it is any
+
+// Or, to initialize immediately,
+Coordinate position = {5,7};
+
+// To cout the user-defined type variable, use a separate function
+void outputCoord(Coordinate coord)
+{
+  std::cout << "(" << coord.x << ", " << coord.y << ")"; 
+}
+
+// Structs can be return values. Structs can also be done within structs.
+struct Vehicle //Always put type declarations first if they are user-defined types. THE NAMES OF FUNCTIONS ARE VERBS BUT THE NAMES OF STRUCTS ARE NOUNS. 
+{
+  Coordinate position;
+  coordinate velocity;
+  double radius;
+};
+
+Vehicle boat1;
+boat1.position.x=3; //You can do members of members of members. Member-ception. 
+Vehicle boat = {{5,7}, {7,-1},5};
+
+void increment(double number)
+{
+  ++number; 
+}
+
+int main()
+{
+  double num = 21;
+  increment(num);
+  std::cout << num; //This would return 21
+  return 0;
+} //Pass-by value: You pass a copy of num to the increment function so that it modifies the copy but not the actual num.
+// However, it allows an alternate called pass-by-reference. Here, you pass along the actual memory location. The notation would be included in the function declaration.
+void increment(double& number) //The type of number is now a reference to double. 
+{
+  ++number; 
+}
+// A reference is not an independent piece of memory; a reference redirects to another piece of memory and modifies that.
+int main()
+{
+  double num=21;
+  increment(num);
+  std::cout << num; //This returns 22. 
+  return 0;
+} //Passing by references ensure that you can make the modifications that you want to make. 
+
+struct HugeThing
+{
+};
+
+void defecate(const Huge Thing& thing) //with this reference the function now has the power to modify anything and everything inside the struct HugeThing
+{
+} //in order to ensure that the function cannot change anything that you don't want it to, use the keyword const. This gives you the safety of pass-by-value but the performance of pass-by-reference.
+
+//ASSIGNMENT FOR 9/27: REWRITE YOUR BOAT CODE, USING STRUCTS AND PASS-BY-REFERENCE AND CONST, AND ALSO MAKING IT RELATIVISTIC. YOU WANT THE REFERENCE FRAMES OF EARTH, TORPEDO, AND BOTH BOATS. TIP: WRITE A GENERAL FUNCTION TO SWITCH 
+
+//use auto 
+
+// TO LOG INTO CMSLPC
+//kinit username@FNAL.GOV
+//ssh -Y username@cmslpc-sl6.fnal.gov //to log in to the cms computer
+// TO LOG OUT OF CMSLPC
+//type logout 
+// Registering a new ssh key with Github;
+//ssh-keygen -t rsa -b 4096 -C yguan@imsa.edu
+
+//10/9/2019
+//arrays are equivalent to pointers; when you declare an array, it is actually a pointer to the beginning, or the first element, of the array
+
+std::cout << "enter array size ";
+int size;
+std::cin >> size;
+int array[size]; //GIVES YOU AN ERROR! DOES NOT WORK
+//Static allocation (static means "known at compile time")
+//we want to do dynamic memory allocation (dynamic means "known when program is running at run-time")
+//in this case, create array dynamically.
+std::cout << "enter array size ";
+int size;
+std::cin >> size;
+int array[] = new int[size]; //this creates space for a pointer only, not an array with elements
+//"new" is dynamic allocation, and "int[size]" tells you how much memory to allocate
+//returns a pointer, but pointers can be converted into arrays very easily 
+int array[size];
+
+//most of your memory is allocated in the heap.
+//there are stacks and heaps for your computer's memory; stacks are organized chunks of memory while heaps are messy
+int array[] = new int[size]; //does this in the heap; allocates memory of a size of a certain number of ints in the HEAP
+
+void defecate()
+{
+  int array[] = new int[size];
+}
+ 
+//statically allocated variables and the memory are destroyed immediately after a function is done running 
+//dynamically allocated variables are destroyed, but not the memory associated with it. in order to get rid of the memory, you need to TELL the computer to release it.
+delete[] array; //you can put this anywhere you want so you can destroy the memory. However, the pointer still exists, so you have to be careful. 
+
+//THREE THINGS COULD GO WRONG WITH DYNAMIC ALLOCATION
+// MEMORY LEAK; when you use up all the memory of the heap so you have to run over and use up other memory
+delete[] array;
+array[2]++; //bad because you're accessing and MODIFYING memory that is not allocated and you don't even know what is in that memory; could very easily lead to a seg fault; INVALID POINTER. 
+delete[] array; //when you try and delete the same memory twice, that is a seg fault. DOUBLE DELETION
+
+//to add things to arrays, it requires four steps;
+// 1. Allocate new memory
+// 2. Copy array over into new memory
+// 3. Add new value(s)
+// 4. Release/delete old memory
+//YOU CAN'T COMMUNICATE WITH THE MEMORY MANAGER
+
+//NEW ASSIGNMENT
+struct SmartArray
+{
+  double* array; //can still use this pointer as array
+  int size; 
+};
+
+SmartArray createArray(int size); //use new command 
+SmartArray copyArray(SmartArray& defecation); //use new command
+void append(SmartArray& defecation, double poop); //use new command, delete command 
+void remove(SmartArray& defecation, int index);
+void setValue(SmartArray& defecation, int index, double value); //set values for the index
+double getValue(SmartArray& defecation, int index); //access indexes 
+void destroyArray(SmartArray& defecation); //use delete command 
+
+
+
+//10/23/2019
+class SmartArray
+{
+public: //public information, user can modify
+  void setValue(int index, double value);
+  double getValue(int index);
+  void SmartArray(int size);
+  ~ SmartArray();
+private: //private information, user cannot access
+  int size;
+  double* array; 
+}
+//a problem could be that the user could screw with our data.
+
+//WHAT THE USER CAN DO:
+  SmartArray array;
+array.getValue[2]; //you have to put the 'array.getValue[]" to avoid the cluttering 
+
+//THIS IS THE IMPLEMENTATION. 
+  douible SmartArray::getValue() //you must do this when you are defining the function.
+  {
+    return array[index]; //the member functions can access PRIVATE data, while the users cannot. 
+  } //NOW THERE IS NO WAY FOR THE USER TO SCREW THINGS UP! the functions access the data directly.
+
+//What if the user screws things up by creating or deleting the array improperly?
+//There are a few special functions.
+//  1. CONSTRUCTOR THAT CONSTRUCTS THE SMART ARRAY FOR YOU. IT IS A CREATE ARRAY FUNCTION. Make a void function that has the same name as the class itself, INSIDE THE PUBLIC PART OF THE CLASS. it can have arguments. 
+void SmartArray(int size);  
+//     to implement:
+SmartArray::SmartArray(size)
+{
+  array = new double[size]; 
+}
+//NOW, WHEN YOU DO...
+SmartArray array[5]; //IT CALLS THE CONSTRUCTOR FUNCTION AND IT MAKES THE SMARTARRAY FOR YOU.
+SmartArray array; //UNITIALIZED MEMORY WILL GIVE YOU AN ERROR; YOU MUST DECLARE AND INITIALIZE AT THE SAME TIME.
+
+// 2. DESTRUCTOR; IT TAKES NO PARAMETERS. 
+~ SmartArray(); 
+SmartArray::~SmartArray()
+{
+  delete array[]; //user does not have to call this destructor; whenever the code leaves the scope, the computer automatically calls the destructor. There is no way that the user can go around it and there is no way that the user can forget about it. 
+}
+
+//JOB: REWRITE SMARTARRAY AS A CLASS. YOU DO NOT NEED A CREATEARRAY OR DESTROYARRAY FUNCTION ANYMORE BECAUSE NOW YOU HAVE A CONSTRUCTOR AND A DESTRUCTOR. MAKE ALL THE OTHER FUNCTIONS MEMBER FUNCTIONS.
+
+
+
+//10/30/19
+ALL DATA MUST BE PRIVATE.
+class Coordinate
+{
+public:
+  Coordinate(double ix, double iy);
+  double getX() {return x;} //THIS IS HOW YOU CAN ACCESS YOUR PRIVATE DATA 
+  double getY() {return y;}
+  void setX(double newVal) {x = newVal;} //GETTERS AND SETTERS
+private:
+  double x;
+  double y; 
+};
+//ENCAPSULATION
+double sum(SmartArray arr);
+// COPY CONSTRUCTOR; creates a new object that is a clone 
+SmartArray(const SmartArray& original) //A constructor; takes a smartarray for an argument. The constructor tells you how to copy your data
+{
+  size = original.size; //the new object copies the old object's data. 
+}
+
+SmartArray clone(array); //you cna just clone arrays liek this
+SmartArray defecation(clone); //cloning the clone
+
+SmartArray getArray();
+SmartArray mystery = getArray();
+
+//ASSIGNMENT OPERATOR; works on and modifies an existing object 
+Smart Array& operator = (const SmartArray& flatulence) // this is a member function. 
+{
+  int size = other.size;
+  return *this; 
+}
+
+double getX() const; //const means that it guarantees that the class's data will not be changed
+//PUT CONST KEYWORD ON ANY FUNCTION THAT DOESNT CHANGE DATA. CONST GOES AT THE END OF A FUNCTION BOTH WNE YOU DEFINE IT AND WHEN YOU DECLARE IT. 
+const Smartarray array;
+
+
+/// HOMEWORK: ADD ASSIGNMENT OEPRATOR AND COPY CONSTRUCTOR. ADD CONST AS APPROPRIATE. 
+
+
+// 11/6/2019
+SmartArray array(5);
+//THREE THINGS HAPPEN WHEN YOU DO THIS:
+//1. memory is allocated
+//2. initialize the memory
+//3. call the constructor; constructor, a function, cannot be called until the object is fully created
+//c++ lets you intersect the intialization step
+
+SmartArray::Smartarray(int isize): //THE CONSTRUCTOR FUNCTION
+  array(new double[size]), //INITIALIZER LIST; BUT THEY HAVE TO BE IN THE SAME ORDER AS THE CLASS DECLARATION. the initializer listis called while the object is being constructed. 
+  size(isize) //CAN'T CALL MEMBER FUNCTIONS
+{
+  array = new double[size]; //this is too late to initialize, so move it to the top just underneath the function calling
+  size = isize; 
+}
+
+//CONSTRUCTOR FORWARDING
+SmartArray::SmartArray(const SmartArray& other):
+  SmartArray(other.size) //this has to be in the initializer list 
+  //INITIALIZER LISTS ONLY WORK WITH CONSTRUCTORS
+{
+}
+
+//EACH CLASS SHOULD GET ITS OWN FILE
+main.cc
+void defecate(int amount)
+{
+  defenestrate(); 
+}
+
+void defecate(int amount)
+{
+  amount++; 
+}
+
+//HOW DO WE TRANSFER SHIT BETWEEN FILES?
+main.cc //your file
+defecate(3);
+#include "defecation.cc" //WHAT THIS DOES IS IT DOES A TEXT COPY OF THE FILE AND DUMPS IT INTO THIS ONE
+#include "chair.cc" //if you do this, there are duplicate definitions of the class defecate. 
+
+chair.cc
+#include "defecation.cc"
+
+//distributed compiling model;
+//when you call g++, you do
+g++ -o main.exe defecate.cc chair.cc main.cc
+//now g++, the compiler, compiles defecate.cc and turns it into an object file called defecate.o and compiles chair.cc into chair.o and main.cc into main.o
+//main.exe just needs to combine them and link the different functions together.the linker is what combines all of them together.  
+//THE THING IS, I DON'T WANT TO HAVE TO LIST OUT THE INCLUDE FILE IN MAIN.CC SO THE COMPILER JUST NEEDS TO KNOW THAT DEFECATE EXISTS, IT DOESNT NEED TO KNOW THE DEFINITION.
+main.cc
+void defecate(int amount); //but this is dangerous 
+int main()
+{
+  defecate(3); 
+}
+
+defecate.h //header file; the source file is defecation.cc
+void defecate(int amount); //just the declaration of the function, no definition
+
+//the in the source file, what you do is:
+defecation.cc
+#include "defecate.h"
+void defecate()
+{
+  defecate(3);
+}
+
+//so in main.cc all you have to do is:
+#include "defecate.h" //YOU ONLY NEED TO INCLUDE THE HEADER FILE IN THE MAIN FILE BECAUSE THE COMPILER ONLY NEEDS TO KNOW THAT THE DEFECATE FUNCTION EXISTS; IT DOESN'T NEED TO KNOW THE DEFINITION. 
+int main()
+{
+  defecate(3); 
+}
+
+chair.h
+#include "defecate.h"
+void sit();
+
+//so then...
+main.cc
+#include "defecate.h"
+#include "chair.h" 
+//then there's this problem; the header file for defecate.h is included and copied twice. so in chair.h,
+chair.h
+#ifndef CHAIR_H //if CHAIR_H is not defined, then...
+#define CHAIR_H //define it
+//NEVER INCLUDE SOURCE FILE; ONLY HEADER FILES.
+#include "defecate.h"
+void sit(); 
+#endif //these are called guards. THESE GUARDS GUARANTEE THAT NO HEADER FILE IS COPIED TWICE. THE GUARDS KEEP THIS IN CHECK.
+
+
+//BREAK THE FILES UP BY CLASS; EACH CLASS GETS A HEADER AND A SOURCE FILE. CONSTRUCTOR FORWARDING. INITIALIZER LISTS. 
+
+
+PHYSICS NOTES
+ATLAS DILEPTON NOTES
+//WHAT'S THE DIFFERENCE BETWEEN RESONANT AND NON-RESONANT? 
+// - resonance: has to do with waves. Let's say you have a string that is stretched between two lengths and waves vibrate on the string that makes a noise. The two ends of the string can't move, which means that only certain waves with certain frequencies can exist on that string. 
+//A resonance point is a big spike in the wave's amplitude where it really works. Amplitude as a function of frequency is c/(f-n*fnot + Q)/ In physics, it's probability as a function of energy, and it has a similar formula. Let's say you have a quark and an antiquark annhilating to create a z boson that then pair produces into a lepton and antilepton. The spike that we were just talking about is when the combined energy of the quark and antiquark is close to or equal to the mass of the z boson. The formula is 1/(E-m+iE) where iE determines the width of the peak, m is the mass of the z boson (or the particle in between), and E is the total energy of the quark and antiquark. For dilepton, what some people are doing is a resonant search, which is searching for another particle, z prime, that gives the same resonant effect but with a higher mass. 
+//what we're doing is a non-resonant search, which is searching for a higher curve in the histogram than the standard model. 
+//
+//WHATS MONTE CARLO?
+//Let's say you have an irregular figure and you want to find the area. What you can do is put the figure in a square, pick a whole bunch of random points in the square, and the ratio of the area of the figure to the area of the square is equal to the ratio of the points inside the figure to the points counted total. Monte Carlo is basically using random numbers to get a definite result. Monte Carlo is basically gneerating particles at random based on theoretical probability. This simulates real life. Then you put the simulated particles in a detector simulator. Then, by the end, you get simulated data in the same format as real data. Basically it helps you predict how real data would look like. Then you can compare your Monte Carlo data to the real data. The advantage of Monte Carlo is that you know everything. We need scale factors to counter miperfections of Monte Carlo. Monte Carlo is really good at hadronization simulations. 
+//
+//SYMMETRIES 
+//Suppose you start with a Lagrangian that is just the kinetic energy minus the mass. It only has motion and mass and does not interact with other particles. 
+//Global invariance: For electrodynamics, the Lagrangian is equal to e^(i phi) * lagrangian. It's true in all locations.
+//Local invariance: the Lagrangian is different depending on where you are. In general, this is not true. 
+//Then we modify the lagrangian to force the local invariance. So, we have larangian = KE - mass + new terms. You end up with another kinetic energy term and interaction term. This represents the interaction between two particles, which the second one is massless. With phi being the kinetic energy minus the mass, we need 2phi + 1 new interaction term which has spin 1 and is massless. Voila! Just by doing this, we have created the photon. 
+//This kind of symmetry is called U(1) and it corresponds to electromagnetism. The weak force is SU(2) and the strong force is SU(3). This is the STANDARD MODEL! Those numbers represent the dimension of the matrix U(1) .  
+//
+//WHAT'S A FIELD?
+//A field is a plane where there is a quantized value at every point in space. For example, you have an electron field, and when the field experiences excitations or decitations at certain values, waves with certain amplitudes appear, and those peaks are electrons or positrons. What we're looking at is the difference between the fields. 
+//
+//All experimental systems need triggers. There is one trigger system that measures each interaction right away that determines whether an event is work noting/keeping or not and discards it if not. That trigger system is a filter. It helps save memory for the computers that are analyzing the interactions. 
+//
+//SECTION 4 TALKS ABOUT EACH OF THE PROGRAMS AND HOW THEY CONTRIBUTE TO MONTE CARLO. 
+//
+//PDF - probability density function
+//ELEMENTS (PARTONS) OF A PROTON:
+//valence quarks - the actual quarks
+//sea quarks - the pair-produced quarks that are disregarded 
+//gluons 
+//When you have proton proton interactions, sometimes the sea quarks will become "real" valence quarks. You have to be able to tell between them. Parton distribution functions tell you the probability of getting a particular parton and a given energy out of an interaction. It also tells you the probability of how much of the proton's momentum that the parton will carry. 
+//
+

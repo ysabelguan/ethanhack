@@ -1,0 +1,27 @@
+// Ysabel Guan
+// 10/23/2019
+// SmartArray Assignment MAIN FILE
+//define functions 
+
+
+#include "smartarray.h" //do not include source file 
+
+// MAIN FUNCTION
+
+int main()
+{
+  //  
+  try
+    {
+      SmartArray<double> array1(3);
+      double appendage = 34;
+      int indexvalue = 3;
+      double newvalue = 69; 
+      array1.append(appendage);
+      array1.remove(indexvalue);
+      array1.setValue(indexvalue, newvalue);
+      array1.getValue(indexvalue);
+    }
+  catch(std::domain_error& err) {};
+  return 0; 
+}
